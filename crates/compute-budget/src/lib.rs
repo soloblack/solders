@@ -25,6 +25,12 @@ pub fn set_compute_unit_price(micro_lamports: u64) -> Instruction {
     ComputeBudgetInstruction::set_compute_unit_price(micro_lamports).into()
 }
 
+/// SetLoadedAccountsDataSizeLimit
+#[pyfunction]
+pub fn set_loaded_accounts_data_size_limit(bytes: u32) -> Instruction {
+    ComputeBudgetInstruction::set_loaded_accounts_data_size_limit(bytes).into()
+}
+
 pub fn create_compute_budget_mod(py: Python<'_>) -> PyResult<&PyModule> {
     let m = PyModule::new(py, "compute_budget")?;
     m.add("ID", Pubkey(ID))?;
@@ -32,6 +38,7 @@ pub fn create_compute_budget_mod(py: Python<'_>) -> PyResult<&PyModule> {
         wrap_pyfunction!(request_heap_frame, m)?,
         wrap_pyfunction!(set_compute_unit_limit, m)?,
         wrap_pyfunction!(set_compute_unit_price, m)?,
+        wrap_pyfunction!(set_loaded_accounts_data_size_limit, m)?,
     ];
     for func in funcs {
         m.add_function(func)?;
